@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<div th:replace="common/common :: bootstrap"></div>
+<title th:text="#{book.list}"></title>
+</head>
+<body class="container-fluid">
+	<div th:replace="common/common :: nav_top"></div>
+	<table class="table container">
+		<thead>
+			<tr>
+				<th><span th:text="#{book.id}"></span> <a
+					th:href="@{/sort-book-by-id_book-asc}"><i
+						class="fas fa-angle-double-down"></i></a> <a
+					th:href="@{/sort-book-by-id_book-desc}"><i
+						class="fas fa-angle-double-up"></i></a></th>
+				<th>
+				<span th:text="#{book.name}"></span> <a
+					th:href="@{/sort-book-by-name_book-asc}"><i
+						class="fas fa-angle-double-down"></i></a> <a
+					th:href="@{/sort-book-by-name_book-desc}"><i
+						class="fas fa-angle-double-up"></i></a></th>
+				<th>
+				<span th:text="#{book.price}"></span> <a
+					th:href="@{/sort-book-by-price_book-asc}"><i
+						class="fas fa-angle-double-down"></i></a> 
+						<a th:href="@{/sort-book-by-price_book-desc}"><i
+						class="fas fa-angle-double-up"></i></a>
+				</th>
+				<th th:text="#{detail}"></th>
+				<th th:text="#{edit}"></th>
+				<th th:text="#{remove}"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.id_book}"></td>
+				<td th:text="${book.name_book}"></td>
+				<td
+					th:text="${#numbers.formatDecimal(book.price_book, 3,'POINT', 1,'COMMA')}+' '+đ"></td>
+				<td><a th:href="@{#}"><i class="fas fa-info"></i></a></td>
+				<td><a th:href="@{/update-book/{id}(id=${book.id_book})}"><i
+						class="far fa-edit"></i></a></td>
+				<td><a th:href="@{/remove-book/{id}(id=${book.id_book})}"><i
+						class="fas fa-trash"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

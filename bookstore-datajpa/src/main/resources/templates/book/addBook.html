@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<div th:replace="common/common :: bootstrap"></div>
+</head>
+<body class="container-fluid">
+	<div th:replace="common/common :: nav_top"></div>
+	<form th:action="@{/add-book}" method="POST" th:object="${book}" class="container">
+		<div class="form-group">
+			<label for="name_book" th:text="#{book.name}"></label> <input
+				type="text" class="form-control" id="name_book" name="name_book" />
+		</div>
+
+		<div class="form-group">
+			<label for="price_book" th:text="#{book.price}"></label> <input
+				type="text" class="form-control" id="price_book" name="price_book" />
+		</div>
+		<input type="submit" class="btn btn-primary" value="submit" />
+	</form>
+</body>
+</html>

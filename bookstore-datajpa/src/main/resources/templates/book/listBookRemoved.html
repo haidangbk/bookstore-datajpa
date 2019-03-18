@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<div th:replace="common/common :: bootstrap"></div>
+<script type="text/javascript" th:src="@{/js/bookJavaScript.js}"></script>
+</head>
+<body class="container-fluid">
+	<div th:replace="common/common :: nav_top"></div>
+	<table class="table container">
+		<thead>
+			<tr>
+				<th th:text="#{book.id}"></th>
+				<th th:text="#{book.name}"></th>
+				<th th:text="#{book.price}"></th>
+				<th th:text="#{restore}"></th>
+				<th th:text="#{delete}"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.id_book}"></td>
+				<td th:text="${book.name_book}"></td>
+				<td
+					th:text="${#numbers.formatDecimal(book.price_book, 3,'POINT', 1,'COMMA')}+' '+đ"></td>
+				<td><a th:href="@{/restore-book/{id}(id=${book.id_book})}"><i
+						class="fas fa-trash-restore"></i></a></td>
+				<td><a th:href="@{/delete-book/{id}(id=${book.id_book})}"
+					th:onclick="return authenticationDelete();"><i
+						class="fas fa-minus-circle"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
