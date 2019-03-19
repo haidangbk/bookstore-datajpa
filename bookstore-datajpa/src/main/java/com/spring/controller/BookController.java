@@ -1,6 +1,5 @@
 package com.spring.controller;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class BookController {
 
 	@GetMapping(value = { "/", "/list-book" })
 	public String listBook(HttpServletRequest request,HttpSession session) {
-		session.invalidate();
+		session.setAttribute("search", "");
 		List<Book> books = bookService.findAllYetRemove();
 		request.setAttribute("books", books);
 		return "book/listBook";
@@ -100,9 +99,15 @@ public class BookController {
 	@GetMapping(value = "/sort-book-by-{column}-{trend}")
 	public String sortBook(HttpServletRequest request,@PathVariable (name="column") String column,@PathVariable(name="trend") String trend,HttpSession session) {
 		String search = (String) session.getAttribute("search");
-		List<Book> listBook = bookService.findAllBySearch(search);
-		System.out.println("===============>"+search + column + trend);
-		List<Book> books = bookService.sortBook(listBook,column,trend);
+		List<Book> books =null;
+		if(search != "" || search != null) {
+			List<Book> listBook = bookService.findAllBySearch(search);
+			books = bookService.sortBook(listBook,column,trend);
+		}
+		else {
+			List<Book> listBook = bookService.findAllYetRemove();
+			books = bookService.sortBook(listBook,column,trend);
+		}
 		request.setAttribute("books", books);
 		return "book/listBook";
 	}
