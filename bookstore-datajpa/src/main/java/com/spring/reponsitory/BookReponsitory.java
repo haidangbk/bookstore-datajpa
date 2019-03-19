@@ -24,5 +24,5 @@ public interface BookReponsitory {
 
 	public List<Book> findAllBySearch(String search);
 
-	public List<Book> sortBook(String column, String trend);
+	public List<Book> sortBook(List<Book> books,String column, String trend);
 }

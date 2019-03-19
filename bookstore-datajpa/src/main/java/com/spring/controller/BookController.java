@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,14 +25,15 @@ public class BookController {
 	BookService bookService;
 
 	@GetMapping(value = { "/", "/list-book" })
-	public String listBook(HttpServletRequest request) {
+	public String listBook(HttpServletRequest request,HttpSession session) {
+		session.invalidate();
 		List<Book> books = bookService.findAllYetRemove();
 		request.setAttribute("books", books);
 		return "book/listBook";
 	}
 
 	@GetMapping(value = "/remove-book/{id}")
-	public String removeBook(HttpServletRequest request, @PathVariable(name = "id") int id) {
+	public String removeBook( @PathVariable(name = "id") int id) {
 		bookService.removeBook(id);
 		return "redirect:/list-book";
 	}
@@ -85,19 +87,22 @@ public class BookController {
 	}
 
 	@GetMapping(value = "/find-book")
-	public String findBook(HttpServletRequest request, @RequestParam(name = "search") String search) {
-		Collection<Book> books = bookService.findAllBySearch(search);
+	public String findBook(HttpServletRequest request, @RequestParam(name = "search") String search,HttpSession session) {
+		session.setAttribute("search", search);
+		List<Book> books = bookService.findAllBySearch(search);
 		if (!books.isEmpty()) {
 			request.setAttribute("books", books);
-			request.setAttribute("search", search);
 			return "book/listBook";
 		}
 		return "redirect:/list-book";
 	}
 	
 	@GetMapping(value = "/sort-book-by-{column}-{trend}")
-	public String sortBook(HttpServletRequest request,@PathVariable (name="column") String column,@PathVariable(name="trend") String trend) {
-		List<Book> books = bookService.sortBook(column,trend);
+	public String sortBook(HttpServletRequest request,@PathVariable (name="column") String column,@PathVariable(name="trend") String trend,HttpSession session) {
+		String search = (String) session.getAttribute("search");
+		List<Book> listBook = bookService.findAllBySearch(search);
+		System.out.println("===============>"+search + column + trend);
+		List<Book> books = bookService.sortBook(listBook,column,trend);
 		request.setAttribute("books", books);
 		return "book/listBook";
 	}

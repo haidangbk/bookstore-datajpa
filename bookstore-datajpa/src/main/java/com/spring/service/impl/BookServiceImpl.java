@@ -63,8 +63,8 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public List<Book> sortBook(String column, String trend) {
-		return bookReponsitory.sortBook(column, trend);
+	public List<Book> sortBook(List<Book>books,String column, String trend) {
+		return bookReponsitory.sortBook(books,column, trend);
 	}
 
 }
