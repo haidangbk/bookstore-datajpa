@@ -1,5 +1,6 @@
 package com.spring.reponsitory.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -113,9 +114,17 @@ public class BookReponsitoryImpl implements BookReponsitory {
 				default:
 					return 0;
 				}
-
 			}
 		});
 		return books;
+	}
+
+	@Override
+	public List<Book> pageBook(List<Book> books, int indexStart, int total) {
+		List<Book> listBook = new ArrayList<>();
+		for (int i = indexStart; i < indexStart + total && i < books.size(); i++) {
+			listBook.add(books.get(i));
+		}
+		return listBook;
 	}
 }

@@ -67,4 +67,9 @@ public class BookServiceImpl implements BookService{
 		return bookReponsitory.sortBook(books,column, trend);
 	}
 
+	@Override
+	public List<Book> pageBook(List<Book> books, int indexStart, int total) {
+		return bookReponsitory.pageBook(books, indexStart, total);
+	}
+
 }
